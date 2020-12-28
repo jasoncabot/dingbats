@@ -1,0 +1,7 @@
+README.md
+dingbats/.env
+public
+**/__pycache__
+.vscode
+.git
+.devcontainer
