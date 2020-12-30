@@ -43,7 +43,6 @@ RUN set -ex \
 RUN mkdir /code/
 WORKDIR /code/
 ADD . /code/
-ADD ./dingbats/.env.example /code/dingbats/.env
 
 
 # uWSGI will listen on this port

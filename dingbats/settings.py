@@ -15,8 +15,11 @@ from pathlib import Path
 import environ
 env = environ.Env(
     # set casting, default value
+    ALLOWED_HOSTS=(list, []),
+    DATABASE_HOST=(str, ""),    
+    DATABASE_USER=(str, ""),
     DEBUG=(bool, False),
-    ALLOWED_HOSTS=(list, [])
+    SECRET_KEY=(str, "some-secret-key"),
 )
 # reading .env file
 environ.Env.read_env()
@@ -24,8 +27,13 @@ environ.Env.read_env()
 # Get the identity of this application
 credential = DefaultAzureCredential()
 
-access_token = credential.get_token(
-    "https://ossrdbms-aad.database.windows.net/.default")
+DATABASE_USER = env('DATABASE_USER')
+DATABASE_HOST = env('DATABASE_HOST')
+if DATABASE_USER and DATABASE_HOST:
+    token = credential.get_token("https://ossrdbms-aad.database.windows.net/.default").token
+else:
+    token = ""
+
 
 # False if not in os.environ
 DEBUG = env('DEBUG')
@@ -89,9 +97,9 @@ DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql',
         'NAME': 'postgres',
-        'USER': env('DATABASE_USER'),
-        'PASSWORD': access_token.token,
-        'HOST': env('DATABASE_HOST'),
+        'USER': DATABASE_USER,
+        'PASSWORD': token,
+        'HOST': DATABASE_HOST,
         'PORT': '5432',
         'OPTIONS': {'sslmode': 'require'}
     }
