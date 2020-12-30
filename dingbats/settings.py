@@ -10,6 +10,7 @@ For the full list of settings and their values, see
 https://docs.djangoproject.com/en/3.1/ref/settings/
 """
 
+from azure.identity import DefaultAzureCredential
 from pathlib import Path
 import environ
 env = environ.Env(
@@ -19,6 +20,12 @@ env = environ.Env(
 )
 # reading .env file
 environ.Env.read_env()
+
+# Get the identity of this application
+credential = DefaultAzureCredential()
+
+access_token = credential.get_token(
+    "https://ossrdbms-aad.database.windows.net/.default")
 
 # False if not in os.environ
 DEBUG = env('DEBUG')
@@ -79,7 +86,15 @@ WSGI_APPLICATION = 'dingbats.wsgi.application'
 # https://docs.djangoproject.com/en/3.1/ref/settings/#databases
 
 DATABASES = {
-    'default': env.db(),
+    'default': {
+        'ENGINE': 'django.db.backends.postgresql',
+        'NAME': 'postgres',
+        'USER': env('DATABASE_USER'),
+        'PASSWORD': access_token.token,
+        'HOST': env('DATABASE_HOST'),
+        'PORT': '5432',
+        'OPTIONS': {'sslmode': 'require'}
+    }
 }
 
 
