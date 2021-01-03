@@ -6,6 +6,7 @@ cffi==1.14.4
 chardet==4.0.0
 cryptography==3.3.1
 Django==3.1.4
+django-debug-toolbar==3.2
 django-environ==0.4.5
 idna==2.10
 msal==1.8.0

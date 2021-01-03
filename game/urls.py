@@ -6,5 +6,5 @@ urlpatterns = [
     # ex: /games/
     path('', views.index, name='index'),
     # ex: /games/5
-    path('<int:game_id>/', views.join, name='join'),
+    path('<int:game_id>/', views.detail, name='detail'),
 ]

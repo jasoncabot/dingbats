@@ -1,0 +1,25 @@
+{% extends "game/base_site.html" %}
+
+
+{% block title %}View Game{% endblock %}
+
+
+{% block content %}
+
+{% if game %}
+
+    <h1>{{ game.name }}</h1>
+
+    <ul>
+        {% for puzzle, guesses in puzzles %}
+            <p><img src="{{ puzzle.photo }}" alt="{{ puzzle.description }}" width="300px" /></p>
+            <p>{{ guesses.count }} / {{ players.count }} players answered</p>
+            <button>guess</button>
+        {% endfor %}
+    </ul>
+
+{% else %}
+    <p>No game is available.</p>
+{% endif %}
+
+{% endblock %}

@@ -1,0 +1,11 @@
+{% extends "game/base_site.html" %}
+
+{% if games %}
+    <ul>
+    {% for game in games %}
+        <li><a href="/games/{{ game.id }}/">{{ game.name }}</a></li>
+    {% endfor %}
+    </ul>
+{% else %}
+    <p>No games are available.</p>
+{% endif %}

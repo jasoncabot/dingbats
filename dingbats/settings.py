@@ -16,7 +16,7 @@ import environ
 env = environ.Env(
     # set casting, default value
     ALLOWED_HOSTS=(list, []),
-    DATABASE_HOST=(str, ""),    
+    DATABASE_HOST=(str, ""),
     DATABASE_USER=(str, ""),
     DEBUG=(bool, False),
     SECRET_KEY=(str, "some-secret-key"),
@@ -30,7 +30,8 @@ credential = DefaultAzureCredential()
 DATABASE_USER = env('DATABASE_USER')
 DATABASE_HOST = env('DATABASE_HOST')
 if DATABASE_USER and DATABASE_HOST:
-    token = credential.get_token("https://ossrdbms-aad.database.windows.net/.default").token
+    token = credential.get_token(
+        "https://ossrdbms-aad.database.windows.net/.default").token
 else:
     token = ""
 
@@ -57,6 +58,7 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'debug_toolbar',
 ]
 
 MIDDLEWARE = [
@@ -67,6 +69,7 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
+    'debug_toolbar.middleware.DebugToolbarMiddleware',
 ]
 
 ROOT_URLCONF = 'dingbats.urls'
@@ -74,7 +77,7 @@ ROOT_URLCONF = 'dingbats.urls'
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [],
+        'DIRS': [BASE_DIR / 'templates'],
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [
@@ -122,6 +125,13 @@ AUTH_PASSWORD_VALIDATORS = [
     {
         'NAME': 'django.contrib.auth.password_validation.NumericPasswordValidator',
     },
+]
+
+
+# The Debug Toolbar is shown only for the following IP Addresses
+
+INTERNAL_IPS = [
+    '127.0.0.1',
 ]
 
 

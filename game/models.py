@@ -46,7 +46,7 @@ class Player(models.Model):
 
 
 class PuzzleSelection(models.Model):
-    game = models.ForeignKey(Game, on_delete=models.CASCADE)
+    game = models.ForeignKey(Game, on_delete=models.CASCADE, related_name="selected")
     puzzle = models.ForeignKey(Puzzle, on_delete=models.CASCADE)
     sort_key = models.PositiveSmallIntegerField(default=0)
 
@@ -59,7 +59,7 @@ class PuzzleSelection(models.Model):
 
 class PlayerGuess(models.Model):
     puzzle_selection = models.ForeignKey(
-        PuzzleSelection, on_delete=models.CASCADE)
+        PuzzleSelection, on_delete=models.CASCADE, related_name="guesses")
     player = models.ForeignKey(Player, on_delete=models.CASCADE)
 
     class Meta:

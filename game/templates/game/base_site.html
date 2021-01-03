@@ -1,0 +1,37 @@
+{% load static %}
+
+<!doctype html>
+<html class="no-js" lang="">
+
+<head>
+    <meta charset="utf-8">
+    <title>{% block title %}{% endblock %}</title>
+    <meta name="description" content="">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <meta property="og:title" content="">
+    <meta property="og:type" content="">
+    <meta property="og:url" content="">
+    <meta property="og:image" content="">
+
+    <link rel="manifest" href="site.webmanifest">
+    <link rel="apple-touch-icon" href="{% static 'game/icon.png' %}">
+    <link rel="shortcut icon" type="image/png" href="{% static 'game/favicon.ico' %}"/>
+
+    <link rel="stylesheet" href="{% static 'game/css/normalize.css' %}">
+    <link rel="stylesheet" href="{% static 'game/css/main.css' %}">
+
+    <meta name="theme-color" content="#fafafa">
+</head>
+
+<body>
+    <div id="content">
+        {% block content %}{% endblock %}
+    </div>
+
+    <script src="{% static 'game/js/vendor/modernizr-3.11.2.min.js' %}"></script>
+    <script src="{% static 'game/js/plugins.js' %}"></script>
+    <script src="{% static 'game/js/main.js' %}"></script>
+</body>
+
+</html>
