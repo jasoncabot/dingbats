@@ -12,7 +12,7 @@
 
     <ul>
         {% for puzzle, guesses in puzzles %}
-            <p><img src="{{ puzzle.photo }}" alt="{{ puzzle.description }}" width="300px" /></p>
+            <p><img src="{{ puzzle.photo.url }}" alt="{{ puzzle.description }}" width="300px" /></p>
             <p>{{ guesses.count }} / {{ players.count }} players answered</p>
             <button>guess</button>
         {% endfor %}
