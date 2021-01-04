@@ -16,8 +16,6 @@ import environ
 env = environ.Env(
     # set casting, default value
     ALLOWED_HOSTS=(list, []),
-    DATABASE_HOST=(str, ""),
-    DATABASE_USER=(str, ""),
     DEBUG=(bool, False),
     SECRET_KEY=(str, "some-secret-key"),
 )
@@ -27,8 +25,8 @@ environ.Env.read_env()
 # Get the identity of this application
 credential = DefaultAzureCredential()
 
-DATABASE_USER = env('DATABASE_USER')
-DATABASE_HOST = env('DATABASE_HOST')
+DATABASE_USER = env('DATABASE_USER', default="")
+DATABASE_HOST = env('DATABASE_HOST', default="")
 if DATABASE_USER and DATABASE_HOST:
     token = credential.get_token(
         "https://ossrdbms-aad.database.windows.net/.default").token
@@ -155,3 +153,13 @@ USE_TZ = True
 STATIC_URL = '/static/'
 
 STATIC_ROOT = './public/'
+
+# File Uploads
+
+AZURE_ACCOUNT_NAME = env('AZURE_ACCOUNT_NAME', default="")
+AZURE_CONTAINER = env('AZURE_CONTAINER', default="")
+AZURE_URL_EXPIRATION_SECS = env('AZURE_URL_EXPIRATION_SECS', default=300)
+if AZURE_ACCOUNT_NAME and AZURE_CONTAINER:
+    DEFAULT_FILE_STORAGE = 'storages.backends.azure_storage.AzureStorage'
+    AZURE_TOKEN_CREDENTIAL = credential.get_token(
+        "https://storage.azure.com/.default").token

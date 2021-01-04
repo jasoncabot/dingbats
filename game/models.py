@@ -1,8 +1,14 @@
+import uuid
 from django.db import models
 
 
+def upload_location(instance, filename):
+    _, extension = filename.split('.')
+    return 'puzzles/%s.%s' % (str(uuid.uuid4()), extension)
+
+
 class Puzzle(models.Model):
-    photo = models.URLField()
+    photo = models.ImageField(upload_to=upload_location)
     description = models.CharField(max_length=255)
     pub_date = models.DateTimeField('date published', auto_now_add=True)
 
@@ -46,7 +52,8 @@ class Player(models.Model):
 
 
 class PuzzleSelection(models.Model):
-    game = models.ForeignKey(Game, on_delete=models.CASCADE, related_name="selected")
+    game = models.ForeignKey(
+        Game, on_delete=models.CASCADE, related_name="selected")
     puzzle = models.ForeignKey(Puzzle, on_delete=models.CASCADE)
     sort_key = models.PositiveSmallIntegerField(default=0)
 
