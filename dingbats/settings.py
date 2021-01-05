@@ -11,7 +11,6 @@ https://docs.djangoproject.com/en/3.1/ref/settings/
 """
 
 from azure.identity import DefaultAzureCredential
-from dingbats.azure_identity_credential_adapter import AzureIdentityCredentialAdapter
 from pathlib import Path
 import environ
 env = environ.Env(
@@ -159,7 +158,7 @@ STATIC_ROOT = './public/'
 
 AZURE_ACCOUNT_NAME = env('AZURE_ACCOUNT_NAME', default="")
 AZURE_CONTAINER = env('AZURE_CONTAINER', default="")
+AZURE_URL_EXPIRATION_SECS = env('AZURE_URL_EXPIRATION_SECS', default=300)
 if AZURE_ACCOUNT_NAME and AZURE_CONTAINER:
     DEFAULT_FILE_STORAGE = 'storages.backends.azure_storage.AzureStorage'
-    AZURE_TOKEN_CREDENTIAL = AzureIdentityCredentialAdapter(
-        credential, resource_id="https://storage.azure.com/.default")
+    AZURE_TOKEN_CREDENTIAL = credential
