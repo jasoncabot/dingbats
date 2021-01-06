@@ -4,6 +4,10 @@ from django.shortcuts import render
 from .models import Game, PuzzleSelection, PlayerGuess, Player
 
 
+def home(request):
+    return render(request, 'game/home.html')
+
+
 def index(request):
     games = Game.objects.order_by('created_at')[:5]
     context = {'games': games}
