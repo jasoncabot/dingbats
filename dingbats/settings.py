@@ -18,6 +18,8 @@ env = environ.Env(
     ALLOWED_HOSTS=(list, []),
     DEBUG=(bool, False),
     SECRET_KEY=(str, "some-secret-key"),
+    LOG_LEVEL_ROOT=(str, "ERROR"),
+    LOG_LEVEL_APP=(str, 'INFO')
 )
 # reading .env file
 environ.Env.read_env()
@@ -44,6 +46,34 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 SECRET_KEY = env('SECRET_KEY')
 
 ALLOWED_HOSTS = env('ALLOWED_HOSTS')
+
+LOGGING = {
+    'version': 1,
+    'disable_existing_loggers': False,
+    'formatters': {
+        'simple': {
+            'format': '{levelname} {asctime} {message}',
+            'style': '{',
+        },
+    },
+    'handlers': {
+        'console': {
+            'class': 'logging.StreamHandler',
+            'formatter': 'simple'
+        },
+    },
+    'root': {
+        'handlers': ['console'],
+        'level': env('LOG_LEVEL_ROOT'),
+    },
+    'loggers': {
+        'game': {
+            'handlers': ['console'],
+            'level': env('LOG_LEVEL_APP'),
+            'propagate': False
+        },
+    }
+}
 
 
 # Application definition
