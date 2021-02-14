@@ -1,0 +1,15 @@
+{% extends "game/base_site.html" %}
+
+
+{% block title %}Create Game{% endblock %}
+
+
+{% block content %}
+
+<form action="{% url 'new_game' %}" method="post">
+    {% csrf_token %}
+    {{ form }}
+    <input type="submit" value="Submit">
+</form>
+
+{% endblock %}

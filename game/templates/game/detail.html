@@ -8,18 +8,33 @@
 
 {% if game %}
 
-    <h1>{{ game.name }}</h1>
+<h1>{{ game.code }}</h1>
+<h2>{{ me.name }}</h2>
 
+<form action="{% url 'detail' game_id=game.id %}" method="post">
+    {% csrf_token %}
+    {{ management_form }}
     <ul>
-        {% for puzzle, guesses in puzzles %}
+        {% for puzzle, guesses, form in puzzles %}
+        <li>
             <p><img src="{{ puzzle.photo.url }}" alt="{{ puzzle.description }}" width="300px" /></p>
-            <p>{{ guesses.count }} / {{ players.count }} players answered</p>
-            <button>guess</button>
+
+            <ol>
+            {% for player, is_correct in guesses %}
+            <p>player {{ player }} is {% if is_correct %}YES{% else %}NO{% endif %}</p>
+            {% endfor %}
+            </ol>
+
+            {{ form.as_p }}
+        </li>
+        <input type="submit" value="Submit">
         {% endfor %}
     </ul>
+</form>
+
 
 {% else %}
-    <p>No game is available.</p>
+<p>No game is available.</p>
 {% endif %}
 
 {% endblock %}
